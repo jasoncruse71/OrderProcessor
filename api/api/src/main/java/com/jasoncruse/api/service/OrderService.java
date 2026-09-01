@@ -6,21 +6,26 @@ import com.jasoncruse.api.dto.OrderResponse;
 import com.jasoncruse.api.model.*;
 import com.jasoncruse.api.repository.OrderRepository;
 import com.jasoncruse.api.repository.ProductRepository;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final StringRedisTemplate redisTemplate;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, StringRedisTemplate redisTemplate) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.redisTemplate = redisTemplate;
     }
 
     public OrderResponse createOrder(OrderRequest request) {
@@ -58,6 +63,8 @@ public class OrderService {
         }
 
         Order saved = orderRepository.save(order);
+
+        redisTemplate.opsForStream().add("order_queue", Map.of("order_id", saved.getId().toString()));
 
         return new OrderResponse(saved.getId(), saved.getStatus(), saved.getTotalAmount());
     }
