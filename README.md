@@ -47,13 +47,11 @@ curl -X POST http://localhost:8080/orders \
 ## Roadmap 
 This is an active, in progress project. Remaining work, roughly in order :
 
-1) Complete end to end testing of the rust worker
-2) Add a GET /orders/{id} endpoint to check order status
-3) Build a small react dashboard to place orders and watch status update live
-4) Load test the API with locust and publish real throughput / latency numbers
-5) Add a docker-compose.yml so the whole stack starts with one command
-6) Write dockerfiles for the API and worker themselves
-7) Deploy the live demo
-8) Add automated tests for the API's stock validation logic
+1) Build a small react dashboard to place orders and watch status update live
+2) Load test the API with locust and publish real throughput / latency numbers
+3) Add a docker-compose.yml so the whole stack starts with one command
+4) Write dockerfiles for the API and worker themselves
+5) Deploy the live demo
+6) Add automated tests for the API's stock validation logic
 
 
