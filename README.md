@@ -11,7 +11,7 @@ Flow : A client submits an order > the API validates inventory and saves the ord
 2) JDK 21+
 3) Rust (via rustup)
 
-1.Clone the Repo
+1. Clone the Repo
 ```bash
 git clone https://github.com/<your-username>/OrderProcessor.git
 cd OrderProcessor
@@ -26,7 +26,7 @@ docker run -d --name orders-redis -p 6379:6379 redis
 cd api
 ./mvnw spring-boot:run
 ```
-4.Run the worker 
+4. Run the worker 
 ```bash
 cd worker
 export DATABASE_URL="postgres://postgres:devpass@localhost:5433/postgres"
