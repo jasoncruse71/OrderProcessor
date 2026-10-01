@@ -11,23 +11,28 @@ Flow : A client submits an order > the API validates inventory and saves the ord
 2) JDK 21+
 3) Rust (via rustup)
 
-1. Start Postgres and Redis
+1.Clone the Repo
+```bash
+git clone https://github.com/<your-username>/OrderProcessor.git
+cd OrderProcessor
+```
+2. Start Postgres and Redis
 ```bash
 docker run -d --name orders-postgres -e POSTGRES_PASSWORD=devpass -p 5433:5432 postgres
 docker run -d --name orders-redis -p 6379:6379 redis
 ```
-2. Run the API
+3. Run the API
 ```bash
 cd api
 ./mvnw spring-boot:run
 ```
-3.Run the worker 
+4.Run the worker 
 ```bash
 cd worker
 export DATABASE_URL="postgres://postgres:devpass@localhost:5433/postgres"
 cargo run
 ```
-4. Add a test product
+5. Add a test product
 ```bash
 docker exec -it orders-postgres psql -U postgres -c \
   "INSERT INTO products (id, name, price, stock_quantity) VALUES (gen_random_uuid(), 'Widget', 9.99, 100);"
@@ -37,7 +42,7 @@ Grab it's ID:
 docker exec -it orders-postgres psql -U postgres -c "SELECT id, name FROM products;"
 ```
 
-5. Place an order
+6. Place an order
 ```bash
 curl -X POST http://localhost:8080/orders \
   -H "Content-Type: application/json" \
